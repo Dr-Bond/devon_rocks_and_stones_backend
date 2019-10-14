@@ -1,0 +1,6 @@
+app_web_login:
+  path:     /login
+  controller: App\Controller\Web\UserController::login
+app_web_logout:
+  path:     /logout
+  controller: App\Controller\Web\UserController::logout

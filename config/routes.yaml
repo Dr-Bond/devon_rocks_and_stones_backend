@@ -1,0 +1,6 @@
+app_api:
+  prefix: /api
+  resource: '../config/routes/app_api.yaml'
+app_web:
+  prefix: /
+  resource: '../config/routes/app_web.yaml'
