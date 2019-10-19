@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+{% block body %}
+<div class="welcome-box-container">
+    <section class="jumbotron text-center welcome-box">
+        <div class="container">
+            <h1 class="jumbotron-heading">Devon Rocks And Stones Admin</h1>
+            <p>Only admins of Devon Rocks And Stones can login via the website, all other users must use the mobile app.</p>
+            <p>
+                <a href="{{ path('app_web_login') }}" class="btn btn-primary my-2">Continue to Login</a>
+            </p>
+        </div>
+    </section>
+</div>
+{% endblock %}

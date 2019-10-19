@@ -210,6 +210,18 @@ class Player
         return $this;
     }
 
+    public function getAddress(): array
+    {
+        $address = [];
+        $this->addressLineOne ? $address[] = $this->addressLineOne : null;
+        $this->addressLineTwo ? $address[] = $this->addressLineTwo : null;
+        $this->city ? $address[] = $this->city : null;
+        $this->county ? $address[] = $this->county : null;
+        $this->postcode ? $address[] = $this->postcode : null;
+
+        return $address;
+    }
+
     /**
      * @return Collection|Stone[]
      */

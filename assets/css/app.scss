@@ -1,0 +1,19 @@
+@import "~bootstrap/scss/bootstrap";
+.login {
+  padding-top: 40px;
+}
+.body-default {
+  background: url(../images/background.svg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.welcome-box-container {
+  padding: 5% 0;
+}
+.welcome-box {
+  padding: 10% 0;
+  background-color: rgba(255,255,255, 0.5);
+  color: inherit;
+}

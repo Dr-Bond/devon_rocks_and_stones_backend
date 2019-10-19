@@ -4,3 +4,6 @@ app_web_login:
 app_web_logout:
   path:     /logout
   controller: App\Controller\Web\UserController::logout
+app_web_player:
+  prefix: /player
+  resource: './app_web_player.yaml'

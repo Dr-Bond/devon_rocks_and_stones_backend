@@ -38,7 +38,7 @@ security:
                 - App\Security\ApiAuthenticator
             logout: ~
         main:
-            pattern: ^/user/|^/login|^/logout
+            pattern: ^/user/|^/login|^/logout|^/player
             anonymous: true
             provider: app_user_provider
             http_basic:

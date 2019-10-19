@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Helper\Orm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -13,18 +14,14 @@ abstract class Controller extends AbstractController
 {
     private $security;
     protected $urlGenerator;
-    protected $userRepo;
+    protected $orm;
     protected $user;
 
-    public function __construct(Security $security, UrlGeneratorInterface $urlGenerator)
+    public function __construct(Security $security, UrlGeneratorInterface $urlGenerator, Orm $orm)
     {
         $this->security = $security;
         $this->urlGenerator = $urlGenerator;
-    }
-
-    public function getUserRepository()
-    {
-        return $this->userRepo = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $this->orm = $orm;
     }
 
     public function getUser()

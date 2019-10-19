@@ -1,0 +1,3 @@
+app_web_player:
+  path:     /
+  controller: App\Controller\Web\PlayerController::index
