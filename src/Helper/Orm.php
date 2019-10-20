@@ -49,10 +49,10 @@ class Orm implements OrmInterface
         }
     }
 
-    public function flush()
+    public function flush($entity = null)
     {
         try {
-            $this->em->flush();
+            $this->em->flush($entity);
             return $this;
         } catch (\Exception $e) {
             return 'Error: '.$e->getMessage();

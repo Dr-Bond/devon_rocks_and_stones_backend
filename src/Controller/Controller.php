@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Entity\Player;
 use App\Helper\Orm;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,6 +27,11 @@ abstract class Controller extends AbstractController
     public function getUser()
     {
         return $this->user = $this->security->getUser();
+    }
+
+    public function getPlayer()
+    {
+        return $this->orm->getRepository(Player::class)->findPlayerByUser($this->security->getUser());
     }
 
     protected function validatePayload($payload)

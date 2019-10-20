@@ -30,11 +30,21 @@ services:
         class: AppBundle\Security\ApiAuthenticator
         arguments: ["@router"]
 
-    App\CommandBus\Api\CreateUserCommandHandler:
-        tags: ['messenger.message_handler']
-
     App\Helper\Orm:
         arguments: ['@doctrine.orm.entity_manager']
 
+    app.http_client:
+        class: Symfony\Component\HttpClient\HttpClient
+    Symfony\Component\HttpClient\HttpClient : '@app.http_client'
+
+    app.dot_env:
+        class: Symfony\Component\Dotenv\Dotenv
+    Symfony\Component\Dotenv\Dotenv : '@app.dot_env'
+
+    App\CommandBus\Api\CreateUserCommandHandler:
+        tags: ['messenger.message_handler']
+
+    App\CommandBus\Api\AddStoneCommandHandler:
+        tags: ['messenger.message_handler']
 
 

@@ -4,7 +4,12 @@ app_api_user:
 app_api_login:
   path:     /login
   controller: App\Controller\Api\UserController::login
+  methods:  [POST]
 app_api_register:
   path:     /register
   controller: App\Controller\Api\UserController::register
+  methods:  [POST]
+app_api_stone_add:
+  path:     stone/add
+  controller: App\Controller\Api\StoneController::add
   methods:  [POST]

@@ -41,29 +41,27 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
 
     public function getCredentials(Request $request)
     {
-        if($request->getContent()) {
+        if (null === $apiToken = $request->headers->get('X-AUTH-TOKEN')) {
             $user = $this->serializer->deserialize($request->getContent(), \App\Model\User::class, 'json');
-            if(!$user->getEmail() and !$user->getPassword()) {
+            if (!$user->getEmail() and !$user->getPassword()) {
                 throw new CustomUserMessageAuthenticationException('Email and password cannot be blank.');
             }
-            if(!$user->getEmail()) {
+            if (!$user->getEmail()) {
                 throw new CustomUserMessageAuthenticationException('Email cannot be blank.');
             }
-            if(!$user->getPassword()) {
+            if (!$user->getPassword()) {
                 throw new CustomUserMessageAuthenticationException('Password cannot be blank.');
             }
             $credentials = [
                 'email' => $user->getEmail(),
-                'password' => $user->getPassword(),
+                'password' => $user->getPassword()
             ];
         } else {
-            if(null === $token = $request->headers->get('X-AUTH-TOKEN')) {
-                throw new CustomUserMessageAuthenticationException('No credentials found.');
-            }
             $credentials = [
-                'token' => $token,
+                'apiToken' => $apiToken,
             ];
         }
+
         return $credentials;
     }
 
@@ -72,9 +70,8 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
         if(isset($credentials['email'])) {
             $user = $this->orm->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
         } else {
-            $user = $this->orm->getRepository(User::class)->findOneBy(['apiToken' => $credentials['token']]);
+            $user = $this->orm->getRepository(User::class)->findOneBy(['apiToken' => $credentials['apiToken']]);
         }
-
         if (!$user) {
             throw new CustomUserMessageAuthenticationException('User could not be found.');
         }
@@ -84,7 +81,7 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if(!isset($credentials['token'])) {
+        if(!isset($credentials['apiToken'])) {
             return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
         }
 
@@ -93,19 +90,22 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-
         $user = $token->getUser();
-        if (!$request->headers->get('X-AUTH-TOKEN')) {
+        $apiToken = $request->headers->get('X-AUTH-TOKEN');
+        if (!$apiToken) {
             $user->createApiToken();
-            $this->orm->flush();
+            $user->setLastLogin(new \DateTime());
+            $this->orm->flush($user);
+            $content = [
+                'user' => $user->getEmail(),
+                'apiToken' => $user->getApiToken()
+            ];
+            return new JsonResponse($content, Response::HTTP_OK);
         }
-
-        $content = [
-            'user' => $user->getEmail(),
-            'apiToken' => $user->getApiToken()
-        ];
-
-        return new JsonResponse($content, Response::HTTP_OK);
+        $user->setApiToken($apiToken);
+        $user->setLastLogin(new \DateTime());
+        $this->orm->flush($user);
+        return null;
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)

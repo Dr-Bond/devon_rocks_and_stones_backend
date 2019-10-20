@@ -46,7 +46,7 @@ class Stone
     {
         $this->createdOn = new \DateTime();
         $this->owner = $owner;
-        $this->status = self::STATUS_NOT_HIDDEN;
+        $this->status = self::STATUS_HIDDEN;
         $this->locations = new ArrayCollection();
     }
 

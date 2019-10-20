@@ -62,7 +62,7 @@ class CreateUserCommandHandler
         $dotenv = new Dotenv();
         $dotenv->load(__DIR__.'/../../../.env');
         $email = $_ENV['EMAIL'];
-        $message = (new \Swift_Message($email))
+        $message = (new \Swift_Message())
             ->setFrom($email)
             ->setTo($player->getUser()->getEmail())
             ->setSubject('Welcome to Devon Rocks and Stones')
