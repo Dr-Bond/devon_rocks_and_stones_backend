@@ -5,17 +5,23 @@ namespace App\CommandBus\Api;
 use App\Entity\Player;
 use App\Entity\User;
 use App\Helper\Orm;
+use Psr\Container\ContainerInterface;
+use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class CreateUserCommandHandler
 {
     private $orm;
     private $passwordEncoder;
+    private $mailer;
+    private $twig;
 
-    public function __construct(Orm $orm, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(Orm $orm, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer, ContainerInterface $container)
     {
         $this->orm = $orm;
         $this->passwordEncoder = $passwordEncoder;
+        $this->mailer = $mailer;
+        $this->twig = $container->get('twig');
     }
 
     public function __invoke(CreateUserCommand $command)
@@ -39,8 +45,8 @@ class CreateUserCommandHandler
         );
         $player->setAddressLineTwo($command->getAddressLineTwo());
         $orm->persist($player);
-
-        $orm->flush();
+        $this->sendEmail($player);
+        //$orm->flush();
     }
 
     private function encodePassword(User $user, string $password)
@@ -49,6 +55,25 @@ class CreateUserCommandHandler
             $user,
             $password
         );
+    }
+
+    private function sendEmail(Player $player)
+    {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__.'/../../../.env');
+        $email = $_ENV['EMAIL'];
+        $message = (new \Swift_Message($email))
+            ->setFrom($email)
+            ->setTo($player->getUser()->getEmail())
+            ->setSubject('Welcome to Devon Rocks and Stones')
+            ->setBody(
+                $this->twig->render(
+                    'messenger/register.html.twig',
+                    ['player' => $player]
+                )
+            )
+        ;
+        $this->mailer->send($message);
     }
 
 }
