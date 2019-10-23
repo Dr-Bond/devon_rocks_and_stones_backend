@@ -3,7 +3,6 @@
 namespace App\Provider;
 
 use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpClient\Exception\TransportException;
 use Symfony\Component\HttpClient\HttpClient;
 use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
@@ -26,7 +25,7 @@ class GoogleProvider implements GoogleProviderInterface
         $locationB = urlencode($locationB);
 
         try {
-            $response = $httpClient->request('GET','https://maps.googleapis.com/maps/api/distancematrix/json?origins='.$locationA.',Devon&destinations='.$locationB.',Devon&key='.$this->apiKey);
+            $response = $httpClient->request('GET','https://maps.googleapis.com/maps/api/distancematrix/json?origins='.$locationA.',UK&destinations='.$locationB.',UK&key='.$this->apiKey);
             $distance = $response->toArray();
         } catch (TransportExceptionInterface $e) {
             throw new \Exception('Error: '.$e->getMessage());
@@ -53,7 +52,7 @@ class GoogleProvider implements GoogleProviderInterface
             $coordinates = $this->getLongLat($location['area']);
             $markers .= '&markers=color:blue%7Clabel:'.$location['stoneCount'].'%7C'.$coordinates['lat'].','.$coordinates['lng'];
         }
-        $mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?center='.$mainLocation.',Devon&zoom=10&size=600x300&maptype=roadmap'.$markers.'&key='.$this->apiKey;
+        $mapUrl = 'https://maps.googleapis.com/maps/api/staticmap?center='.$mainLocation.',UK&zoom=10&size=600x300&maptype=roadmap'.$markers.'&key='.$this->apiKey;
         return $mapUrl;
     }
 

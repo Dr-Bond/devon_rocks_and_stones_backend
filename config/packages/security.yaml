@@ -2,7 +2,7 @@ security:
     encoders:
         App\Entity\User:
             algorithm: auto
-
+    erase_credentials: false
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
         # used to reload user from session & other features (e.g. switch_user)
@@ -38,7 +38,7 @@ security:
                 - App\Security\ApiAuthenticator
             logout: ~
         main:
-            pattern: ^/user/|^/login|^/logout|^/player
+            pattern: ^/web/
             anonymous: true
             provider: app_user_provider
             http_basic:

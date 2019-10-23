@@ -45,8 +45,8 @@ class CreateUserCommandHandler
         );
         $player->setAddressLineTwo($command->getAddressLineTwo());
         $orm->persist($player);
+        $orm->flush();
         $this->sendEmail($player);
-        //$orm->flush();
     }
 
     private function encodePassword(User $user, string $password)

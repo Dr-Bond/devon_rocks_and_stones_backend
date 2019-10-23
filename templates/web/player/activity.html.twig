@@ -1,0 +1,32 @@
+{% set tab = 'Players Activity' %}
+{% extends 'base.html.twig' %}
+{% block title %}{{ tab }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row faded-background">
+        <div class="col-sm"></div>
+        <div class="col-sm" id="chart_div" ></div>
+        <div class="col-sm"></div>
+    </div>
+</div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    google.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            {{ data|raw }}
+        ]);
+        var options = {
+            width: 1000,
+            height: 550,
+            backgroundColor: { fill:'transparent' },
+            legend: { position: 'top', maxLines: 3, textStyle: {color: 'black', fontSize: 16 } },
+            isStacked: true
+        };
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+    }
+</script>
+{% endblock %}

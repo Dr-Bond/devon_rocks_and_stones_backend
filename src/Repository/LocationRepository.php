@@ -29,4 +29,17 @@ class LocationRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findPlayerPoints()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(l.id) stoneCount')
+            ->addSelect('p')
+            ->addSelect('u')
+            ->join('l.foundBy','p')
+            ->join('p.user','u')
+            ->where('(l.previousLocation is null and l.kept <> 1)')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 }

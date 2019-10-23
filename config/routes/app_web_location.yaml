@@ -1,0 +1,3 @@
+app_web_location_hidden:
+  path:     /hidden-stones
+  controller: App\Controller\Web\LocationController::hiddenStones

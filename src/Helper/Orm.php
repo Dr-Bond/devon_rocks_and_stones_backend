@@ -30,33 +30,20 @@ class Orm implements OrmInterface
 
     public function persist($object)
     {
-        try {
-            $this->em->persist($object);
-            return $this;
-        } catch (\Exception $e) {
-            return 'Error: '.$e->getMessage();
-        }
-
+        $this->em->persist($object);
+        return $this;
     }
 
     public function remove($object)
     {
-        try {
-            $this->em->remove($object);
-            return $this;
-        } catch (\Exception $e) {
-            return 'Error: '.$e->getMessage();
-        }
+        $this->em->remove($object);
+        return $this;
     }
 
     public function flush($entity = null)
     {
-        try {
-            $this->em->flush($entity);
-            return $this;
-        } catch (\Exception $e) {
-            return 'Error: '.$e->getMessage();
-        }
+        $this->em->flush($entity);
+        return $this;
     }
 
     public function find($entity, $criteria = array())

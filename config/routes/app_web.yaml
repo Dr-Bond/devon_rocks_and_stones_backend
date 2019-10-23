@@ -7,3 +7,6 @@ app_web_logout:
 app_web_player:
   prefix: /player
   resource: './app_web_player.yaml'
+app_web_location:
+  prefix: /location
+  resource: './app_web_location.yaml'

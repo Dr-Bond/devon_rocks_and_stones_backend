@@ -55,6 +55,16 @@ class Location
      */
     private $foundOn;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $kept;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Location", cascade={"persist", "remove"})
+     */
+    private $previousLocation;
+
     public function __construct(Player $hiddenBy, Stone $stone, string $area)
     {
         $this->hiddenOn = new \DateTime();
@@ -138,6 +148,30 @@ class Location
     public function setFoundOn(?\DateTimeInterface $foundOn): self
     {
         $this->foundOn = $foundOn;
+        return $this;
+    }
+
+    public function getKept(): ?bool
+    {
+        return $this->kept;
+    }
+
+    public function setKept(?bool $kept): self
+    {
+        $this->kept = $kept;
+
+        return $this;
+    }
+
+    public function getPreviousLocation(): ?self
+    {
+        return $this->previousLocation;
+    }
+
+    public function setPreviousLocation(?self $previousLocation): self
+    {
+        $this->previousLocation = $previousLocation;
+
         return $this;
     }
 }

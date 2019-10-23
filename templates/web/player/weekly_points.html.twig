@@ -1,0 +1,26 @@
+{% set tab = 'Weekly Points' %}
+{% extends 'base.html.twig' %}
+{% block title %}{{ tab }}{% endblock %}
+
+{% block body %}
+    <table class="table table-striped table-hover faded-background">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Week Number</th>
+            <th scope="col">Points</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Surname</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for point in points %}
+            <tr>
+                <td>{{ point['week'] }}</td>
+                <td>{{ point['points'] }}</td>
+                <td>{{ point['first_name'] }}</td>
+                <td>{{ point['surname'] }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

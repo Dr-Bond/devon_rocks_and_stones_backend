@@ -64,6 +64,11 @@ class User implements UserInterface
     private $player;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $inactiveEmailSentOn;
+
+    /**
      * User constructor.
      * @param $email
      */
@@ -183,5 +188,17 @@ class User implements UserInterface
     public function getPlayer(): ?Player
     {
         return $this->player;
+    }
+
+    public function getInactiveEmailSentOn(): ?\DateTimeInterface
+    {
+        return $this->inactiveEmailSentOn;
+    }
+
+    public function setInactiveEmailSentOn(?\DateTimeInterface $inactiveEmailSentOn): self
+    {
+        $this->inactiveEmailSentOn = $inactiveEmailSentOn;
+
+        return $this;
     }
 }

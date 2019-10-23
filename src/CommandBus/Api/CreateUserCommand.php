@@ -5,6 +5,7 @@ namespace App\CommandBus\Api;
 use App\Model\User;
 use App\Model\Player;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CreateUserCommand
@@ -95,7 +96,29 @@ class CreateUserCommand
         $metadata->addPropertyConstraint('city', new Assert\NotBlank());
         $metadata->addPropertyConstraint('county', new Assert\NotBlank());
         $metadata->addPropertyConstraint('postcode', new Assert\NotBlank());
-
         $metadata->addPropertyConstraint('email', new Assert\Email());
+        $metadata->addConstraint(new Assert\Callback('validatePassword'));
+    }
+
+    public function validatePassword(ExecutionContextInterface $context, $payload)
+    {
+        $password = $this->password;
+        $errors = [];
+
+        if(strlen($password) < 6 and $password !== null) {
+            $errors[] = 'Password must be longer than 6 characters.';
+        }
+
+        if((!preg_match('@[A-Z]@', $password) || !preg_match('@[a-z]@', $password) || !preg_match('@[0-9]@', $password)) and strlen($password) > 5 and $password !== null) {
+            $errors[] = 'Password must contain at least one number and one uppercase.';
+        }
+
+        if(count($errors) > 0) {
+            $context->buildViolation(implode(", ",$errors))
+                ->atPath('password')
+                ->addViolation();
+        }
+
+        return;
     }
 }

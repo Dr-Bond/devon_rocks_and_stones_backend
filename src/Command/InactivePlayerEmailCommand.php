@@ -56,6 +56,8 @@ class InactivePlayerEmailCommand extends Command
             return;
         }
 
+        $io->note(count($players).' Inactive Player(s) Found.');
+
         $locations = $orm->getRepository(Location::class)->findHiddenStonesLocations();
 
         $emails = [];
@@ -77,11 +79,12 @@ class InactivePlayerEmailCommand extends Command
         foreach($emails as $email) {
             $player = $email['player'];
             $stones = $email['stones'];
+            $user = $player->getUser();
             $mapUrl = $this->googleProvider->getStaticMap($player->getCity(),$stones);
             $message = (new \Swift_Message())
                 ->setFrom($this->senderEmail)
-                ->setTo($player->getUser()->getEmail())
-                ->setSubject('Stones And Rocks In Your Location')
+                ->setTo($user->getEmail())
+                ->setSubject('Rocks And Stones In Your Location')
                 ->setContentType("text/html")
                 ->setBody(
                     $this->twig->render(
@@ -91,7 +94,10 @@ class InactivePlayerEmailCommand extends Command
                 )
             ;
             $this->mailer->send($message);
+            $user->setInactiveEmailSentOn(new \DateTime());
+            $orm->flush();
+            $io->success('Email Sent: '.$user->getEmail());
         }
-
+        $io->success('Finished');
     }
 }
