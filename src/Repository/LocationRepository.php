@@ -20,7 +20,6 @@ class LocationRepository extends ServiceEntityRepository
             ->select('count(s.id) stoneCount')
             ->addSelect('l.area')
             ->join('l.stone','s')
-            ->where('l.foundOn is null')
             ->andWhere('s.status = :hidden')
             ->setParameter('hidden',Stone::STATUS_HIDDEN)
             ->groupBy('l.area')
