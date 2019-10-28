@@ -6,6 +6,7 @@ use App\Entity\Player;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\DBAL\ParameterType;
 
 class PlayerRepository extends ServiceEntityRepository
 {
@@ -104,6 +105,17 @@ class PlayerRepository extends ServiceEntityRepository
 
         $stmt = $conn->prepare($sql);
         $stmt->execute();
+        $results = $stmt->fetchAll();
+        return $results;
+    }
+
+    public function activity(Player $player)
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        $sql = "SELECT * FROM player_v_activity WHERE id = ?";
+
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([$player->getId()]);
         $results = $stmt->fetchAll();
         return $results;
     }

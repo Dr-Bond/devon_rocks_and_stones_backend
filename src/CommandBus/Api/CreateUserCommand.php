@@ -2,6 +2,7 @@
 
 namespace App\CommandBus\Api;
 
+use App\Helper\Orm;
 use App\Model\User;
 use App\Model\Player;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,6 +11,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 class CreateUserCommand
 {
+    private $orm;
     private $email;
     private $password;
     private $firstName;
@@ -21,8 +23,9 @@ class CreateUserCommand
     private $county;
     private $postcode;
 
-    public function __construct(User $user, Player $player)
+    public function __construct(Orm $orm, User $user, Player $player)
     {
+        $this->orm = $orm;
         $this->email = $user->getEmail();
         $this->password = $user->getPassword();
         $this->firstName = $player->getFirstName();
@@ -98,27 +101,47 @@ class CreateUserCommand
         $metadata->addPropertyConstraint('postcode', new Assert\NotBlank());
         $metadata->addPropertyConstraint('email', new Assert\Email());
         $metadata->addConstraint(new Assert\Callback('validatePassword'));
+        $metadata->addConstraint(new Assert\Callback('validateUniqueUsername'));
+        $metadata->addConstraint(new Assert\Callback('validateAge'));
     }
 
     public function validatePassword(ExecutionContextInterface $context, $payload)
     {
         $password = $this->password;
         $errors = [];
-
         if(strlen($password) < 6 and $password !== null) {
             $errors[] = 'Password must be longer than 6 characters.';
         }
-
         if((!preg_match('@[A-Z]@', $password) || !preg_match('@[a-z]@', $password) || !preg_match('@[0-9]@', $password)) and strlen($password) > 5 and $password !== null) {
             $errors[] = 'Password must contain at least one number and one uppercase.';
         }
-
         if(count($errors) > 0) {
             $context->buildViolation(implode(", ",$errors))
                 ->atPath('password')
                 ->addViolation();
         }
-
         return;
+    }
+
+    public function validateUniqueUsername(ExecutionContextInterface $context, $payload)
+    {
+        $user = $this->orm->getRepository(\App\Entity\User::class)->findOneBy(['email' => $this->email]);
+        if($user !== null) {
+            $context->buildViolation('Email Address already used.')
+                ->atPath('email')
+                ->addViolation();
+        }
+        return;
+    }
+
+    public function validateAge(ExecutionContextInterface $context, $payload)
+    {
+        $now = new \DateTime();
+        $interval = $now->diff($this->dateOfBirth);
+        if($interval->y < 17) {
+            $context->buildViolation('You must be over 16.')
+                ->atPath('dateOfBirth')
+                ->addViolation();
+        }
     }
 }

@@ -7,3 +7,6 @@ app_web_player_active:
 app_web_player_weekly_points:
   path:     /weekly-points
   controller: App\Controller\Web\PlayerController::weeklyPoints
+app_web_player_activity:
+  path:     /activity/{id}
+  controller: App\Controller\Web\PlayerController::activity

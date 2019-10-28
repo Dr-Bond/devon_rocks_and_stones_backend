@@ -12,6 +12,7 @@
         <th scope="col">Email</th>
         <th scope="col">Address</th>
         <th scope="col">Last Login</th>
+        <th scope="col">View Activity</th>
     </tr>
     </thead>
     <tbody>
@@ -23,6 +24,7 @@
         <td>{{ player.user.email }}</td>
         <td>{{ player.address|join(', ') }}</td>
         <td>{{ player.user.lastLogin|date("d/m/Y") }}</td>
+        <td><a class="btn btn-primary" href="{{ path('app_web_player_activity',{'id': player.id}) }}" role="button">View Activity</a></td>
     </tr>
     {% endfor %}
     </tbody>

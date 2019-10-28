@@ -23,15 +23,22 @@
                 <li class="nav-item {{ tab == 'Hidden Stones' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('app_web_location_hidden_stones') }}">Hidden Stones <span class="sr-only">{{ tab == 'Hidded Stones' ? '(current)' : '' }}</span></a>
                 </li>
-                    <li class="nav-item {{ tab == 'Found Stones Map' ? 'active' : '' }}">
-                        <a class="nav-link" href="{{ path('app_web_location_found_stones_map') }}">Found Stones Map <span class="sr-only">{{ tab == 'Found Stones Map' ? '(current)' : '' }}</span></a>
-                    </li>
+                <li class="nav-item {{ tab == 'Found Stones Map' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('app_web_location_found_stones_map') }}">Found Stones Map <span class="sr-only">{{ tab == 'Found Stones Map' ? '(current)' : '' }}</span></a>
+                </li>
                 <li class="nav-item {{ tab == 'Weekly Points' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('app_web_player_weekly_points') }}">Weekly Points <span class="sr-only">{{ tab == 'Weekly Points' ? '(current)' : '' }}</span></a>
                 </li>
                 {% endif %}
             </ul>
         </div>
+        <ul class="navbar-nav mr-auto">
+            {% if app.user %}
+                <li class="nav-item pull-right">
+                    <a class="nav-link" href="{{ path('app_web_logout') }}">You are logged in as {{ app.user.username }} - Logout</a>
+                </li>
+            {% endif %}
+        </ul>
     </nav>
         {% block body %}{% endblock %}
         {% block javascripts %}{{ encore_entry_script_tags('app') }}{% endblock %}

@@ -29,7 +29,7 @@ class UserController extends Controller
         $user = $serializer->deserialize($request->getContent(), \App\Model\User::class, 'json');
         $player = $serializer->deserialize($request->getContent(), \App\Model\Player::class, 'json');
 
-        $command = new CreateUserCommand($user, $player);
+        $command = new CreateUserCommand($this->orm, $user, $player);
 
         if(false !== $error = $this->validatePayload($command)) {
             return $error;
