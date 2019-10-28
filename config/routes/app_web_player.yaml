@@ -1,9 +1,9 @@
 app_web_player:
   path:     /
   controller: App\Controller\Web\PlayerController::index
-app_web_player_activity:
+app_web_player_active:
   path:     /activity
-  controller: App\Controller\Web\PlayerController::activity
+  controller: App\Controller\Web\PlayerController::active
 app_web_player_weekly_points:
   path:     /weekly-points
   controller: App\Controller\Web\PlayerController::weeklyPoints

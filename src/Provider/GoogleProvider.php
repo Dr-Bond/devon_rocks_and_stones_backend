@@ -13,9 +13,15 @@ class GoogleProvider implements GoogleProviderInterface
 
     public function __construct(HttpClient $httpClient, Dotenv $dotenv)
     {
-        $dotenv->load('.env');
+
+        $dotenv->load(__DIR__.'/../../.env');
         $this->httpClient = $httpClient;
         $this->apiKey = $_ENV['GOOGLE_API_KEY'];
+    }
+
+    public function getApiKey()
+    {
+        return $this->apiKey;
     }
 
     public function getDistance($locationA, $locationB)
@@ -56,7 +62,7 @@ class GoogleProvider implements GoogleProviderInterface
         return $mapUrl;
     }
 
-    private function getLongLat($location)
+    public function getLongLat($location)
     {
         $httpClient = $this->httpClient->create();
         $location = urlencode($location);

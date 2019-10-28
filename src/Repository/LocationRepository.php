@@ -14,7 +14,7 @@ class LocationRepository extends ServiceEntityRepository
         parent::__construct($registry, Location::class);
     }
 
-    public function findHiddenStonesLocations()
+    public function findHiddenStonesByLocation()
     {
         return $this->createQueryBuilder('l')
             ->select('count(s.id) stoneCount')
@@ -26,6 +26,33 @@ class LocationRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
         ;
+    }
+
+    public function findHiddenStonesLocations()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('l')
+            ->addSelect('s')
+            ->join('l.stone','s')
+            ->andWhere('s.status = :hidden')
+            ->setParameter('hidden',Stone::STATUS_HIDDEN)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findFoundStonesByLocation()
+    {
+        return $this->createQueryBuilder('l')
+            ->select('count(s.id) stoneCount')
+            ->addSelect('l.area')
+            ->join('l.stone','s')
+            ->andWhere('s.status = :hidden')
+            ->setParameter('hidden',Stone::STATUS_NOT_HIDDEN)
+            ->groupBy('l.area')
+            ->getQuery()
+            ->getResult()
+            ;
     }
 
     public function findPlayerPoints()

@@ -1,3 +1,6 @@
 app_web_location_hidden_stones:
   path:     /hidden-stones
   controller: App\Controller\Web\LocationController::hiddenStones
+app_web_location_found_stones_map:
+  path:     /found-stones-map
+  controller: App\Controller\Web\LocationController::foundStonesMap

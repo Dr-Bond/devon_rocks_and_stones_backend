@@ -13,11 +13,11 @@ class PlayerController extends Controller
         return $this->render('web/player/index.html.twig',['players' => $players]);
     }
 
-    public function activity()
+    public function active()
     {
         $results = $this->orm->getRepository(Player::class)->loginActivity();
         $headings = "'Weeks', ";
-        $data = "'Activity', ";
+        $data = "'Last Active', ";
         foreach ($results as $result) {
             $heading = $result['number_of_weeks'];
             $users = $result['number_of_users'];
@@ -26,7 +26,8 @@ class PlayerController extends Controller
         }
         $headings .= " { role: 'annotation' } ";
         $data = "[".$headings."],[".rtrim($data,',').",'']";
-        return $this->render('web/player/activity.html.twig',['data' => $data]);
+        dump($data); exit;
+        return $this->render('web/player/active.html.twig',['data' => $data]);
     }
 
     public function weeklyPoints()

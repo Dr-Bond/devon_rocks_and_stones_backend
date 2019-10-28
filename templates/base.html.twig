@@ -17,12 +17,15 @@
                 <li class="nav-item {{ tab == 'Players' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('app_web_player') }}">Players <span class="sr-only">{{ tab == 'Players' ? '(current)' : '' }}</span></a>
                 </li>
-                <li class="nav-item {{ tab == 'Players Activity' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ path('app_web_player_activity') }}">Players Activity <span class="sr-only">{{ tab == 'Players Activity' ? '(current)' : '' }}</span></a>
+                <li class="nav-item {{ tab == 'Active Players' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ path('app_web_player_active') }}">Active Players <span class="sr-only">{{ tab == 'Active Players' ? '(current)' : '' }}</span></a>
                 </li>
                 <li class="nav-item {{ tab == 'Hidden Stones' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('app_web_location_hidden_stones') }}">Hidden Stones <span class="sr-only">{{ tab == 'Hidded Stones' ? '(current)' : '' }}</span></a>
                 </li>
+                    <li class="nav-item {{ tab == 'Found Stones Map' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ path('app_web_location_found_stones_map') }}">Found Stones Map <span class="sr-only">{{ tab == 'Found Stones Map' ? '(current)' : '' }}</span></a>
+                    </li>
                 <li class="nav-item {{ tab == 'Weekly Points' ? 'active' : '' }}">
                     <a class="nav-link" href="{{ path('app_web_player_weekly_points') }}">Weekly Points <span class="sr-only">{{ tab == 'Weekly Points' ? '(current)' : '' }}</span></a>
                 </li>
