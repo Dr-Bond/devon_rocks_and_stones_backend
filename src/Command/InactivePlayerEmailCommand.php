@@ -26,7 +26,7 @@ class InactivePlayerEmailCommand extends Command
 
     public function __construct(Orm $orm, GoogleProviderInterface $googleProvider, Dotenv $dotenv, \Swift_Mailer $mailer, ContainerInterface $container)
     {
-        $dotenv->load('.env');
+        $dotenv->load(__DIR__.'/../../.env');
         $this->orm = $orm;
         $this->googleProvider = $googleProvider;
         $this->senderEmail = $_ENV['EMAIL'];
@@ -58,7 +58,7 @@ class InactivePlayerEmailCommand extends Command
 
         $io->note(count($players).' Inactive Player(s) Found.');
 
-        $locations = $orm->getRepository(Location::class)->findHiddenStonesLocations();
+        $locations = $orm->getRepository(Location::class)->findFoundStonesByLocation();
 
         $emails = [];
 

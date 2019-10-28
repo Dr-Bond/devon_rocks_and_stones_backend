@@ -89,18 +89,28 @@ class PlayerRepository extends ServiceEntityRepository
                         WHEN l.previous_location_id IS NOT NULL AND IFNULL(kept,0) = 0 THEN 1
                         ELSE 0
                     END) points,
-                   WEEKOFYEAR(l.found_on) week,
+                    CASE 
+                        WHEN WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on)  = 0 THEN 'This Week'
+                        WHEN WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on)  = 1 THEN 'Last Week'
+                        ELSE CONCAT(CONVERT(WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on) ,CHAR), ' Weeks Ago')
+                    END week,
+                    WEEKOFYEAR(l.found_on) week_num,
                     p.first_name,
                     p.surname
                 FROM
                     location l
                 JOIN player p on l.found_by_id = p.id
                 GROUP BY
-                     WEEKOFYEAR(l.found_on),
+                    CASE 
+                        WHEN WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on)  = 0 THEN 'This Week'
+                        WHEN WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on)  = 1 THEN 'Last Week'
+                        ELSE CONCAT(CONVERT(WEEKOFYEAR(CURRENT_DATE()) - WEEKOFYEAR(l.found_on) ,CHAR), ' Weeks Ago')
+                    END,
+                    WEEKOFYEAR(l.found_on),
                     p.first_name,
                     p.surname
                 ORDER BY
-                    week DESC,
+                    week_num DESC,
                     points DESC";
 
         $stmt = $conn->prepare($sql);
@@ -119,4 +129,5 @@ class PlayerRepository extends ServiceEntityRepository
         $results = $stmt->fetchAll();
         return $results;
     }
+
 }

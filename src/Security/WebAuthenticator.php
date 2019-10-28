@@ -67,11 +67,13 @@ class WebAuthenticator extends AbstractFormLoginAuthenticator
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
 
         if (!$user) {
-            // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
-        return $user;
+        if(in_array(User::ROLE_ADMIN,$user->getRoles())) {
+            return $user;
+        }
+            throw new CustomUserMessageAuthenticationException('Admin users only, use the App!');
     }
 
     public function checkCredentials($credentials, UserInterface $user)

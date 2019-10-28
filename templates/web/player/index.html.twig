@@ -12,7 +12,7 @@
         <th scope="col">Email</th>
         <th scope="col">Address</th>
         <th scope="col">Last Login</th>
-        <th scope="col">View Activity</th>
+        <th scope="col">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -24,7 +24,12 @@
         <td>{{ player.user.email }}</td>
         <td>{{ player.address|join(', ') }}</td>
         <td>{{ player.user.lastLogin|date("d/m/Y") }}</td>
-        <td><a class="btn btn-primary" href="{{ path('app_web_player_activity',{'id': player.id}) }}" role="button">View Activity</a></td>
+        <td>
+            <div class="btn-group" role="group" aria-label="actions">
+                <a class="btn btn-success" href="{{ path('app_web_player_send_email',{'id': player.id}) }}" role="button">Send Email</a>
+                <a class="btn btn-primary" href="{{ path('app_web_player_activity',{'id': player.id}) }}" role="button">View Activity</a>
+            </div>
+        </td>
     </tr>
     {% endfor %}
     </tbody>

@@ -10,3 +10,6 @@ app_web_player_weekly_points:
 app_web_player_activity:
   path:     /activity/{id}
   controller: App\Controller\Web\PlayerController::activity
+app_web_player_send_email:
+  path:     /send-email/{id}
+  controller: App\Controller\Web\PlayerController::sendEmail

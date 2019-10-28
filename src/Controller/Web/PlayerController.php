@@ -2,10 +2,14 @@
 
 namespace App\Controller\Web;
 
+use App\CommandBus\Web\EmailCommand;
 use App\Controller\Controller;
 use App\Entity\Player;
+use App\Form\EmailFormType;
 use App\Helper\Orm;
 use App\Provider\GoogleProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -66,4 +70,20 @@ class PlayerController extends Controller
         return $this->render('web/player/activity.html.twig',['data' => $data,'apiKey' => $apiKey, 'player' => $player]);
     }
 
+    public function sendEmail(Player $player, Request $request, MessageBusInterface $bus)
+    {
+        $command = new EmailCommand($player);
+        $form = $this->createForm(EmailFormType::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $bus->dispatch($command);
+            return $this->redirect($this->generateUrl('app_web_player'));
+        } else {
+            return $this->render('web/player/send_email.html.twig', array(
+                'form' => $form->createView(),
+                'player' => $player
+            ));
+        }
+    }
 }

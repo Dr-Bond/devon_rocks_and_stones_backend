@@ -102,7 +102,6 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
             ];
             return new JsonResponse($content, Response::HTTP_OK);
         }
-        //$user->setApiToken($apiToken);
         $user->setLastLogin(new \DateTime());
         $this->orm->flush($user);
         return null;

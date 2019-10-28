@@ -47,4 +47,7 @@ services:
     App\CommandBus\Api\AddStoneCommandHandler:
         tags: ['messenger.message_handler']
 
+    App\CommandBus\Web\EmailCommandHandler:
+        tags: ['messenger.message_handler']
+
 
