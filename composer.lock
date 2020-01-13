@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f94eab2965b1134d64ab64a4b62c23c",
+    "content-hash": "f56d63870dc727a1952329817cddd09d",
     "packages": [
         {
             "name": "bcc/auto-mapper-bundle",
@@ -5977,6 +5977,7 @@
                 "code",
                 "zf"
             ],
+            "abandoned": "laminas/laminas-code",
             "time": "2019-10-05T23:18:22+00:00"
         },
         {
@@ -6031,6 +6032,7 @@
                 "events",
                 "zf2"
             ],
+            "abandoned": "laminas/laminas-eventmanager",
             "time": "2018-04-25T15:33:34+00:00"
         }
     ],
@@ -6806,6 +6808,7 @@
         "php": "^7.1.3",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-intl": "^7.3",
         "ext-json": "^1.6"
     },
     "platform-dev": []

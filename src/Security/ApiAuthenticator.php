@@ -36,13 +36,15 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
 
     public function supports(Request $request)
     {
-        return $request->getContent() or $request->headers->has('X-AUTH-TOKEN');
+        return $request->request->all() or $request->headers->has('X-AUTH-TOKEN');
     }
 
     public function getCredentials(Request $request)
     {
         if (null === $apiToken = $request->headers->get('X-AUTH-TOKEN')) {
-            $user = $this->serializer->deserialize($request->getContent(), \App\Model\User::class, 'json');
+            $params = $request->request->all();
+
+            $user = new \App\Model\User($params);
             if (!$user->getEmail() and !$user->getPassword()) {
                 throw new CustomUserMessageAuthenticationException('Email and password cannot be blank.');
             }
@@ -96,11 +98,26 @@ class ApiAuthenticator extends AbstractGuardAuthenticator
             $user->createApiToken();
             $user->setLastLogin(new \DateTime());
             $this->orm->flush($user);
+
+            $player = $user->getPlayer();
             $content = [
-                'user' => $user->getEmail(),
-                'apiToken' => $user->getApiToken()
+                'error' => false,
+                'message' => $user->getApiToken(),
+                'user' => [
+                    'id' => $user->getId(),
+                    'email' => $user->getEmail(),
+                    'firstName' => $player->getFirstName(),
+                    'surname' => $player->getSurname(),
+                    'addressLineOne' => $player->getAddressLineOne(),
+                    'addressLineTwo' => $player->getAddressLineTwo(),
+                    'city' => $player->getCity(),
+                    'county' => $player->getCounty(),
+                    'postcode' => $player->getPostcode(),
+                    'accessToken' => $user->getApiToken()
+                ],
             ];
-            return new JsonResponse($content, Response::HTTP_OK);
+            $json = new JsonResponse($content, Response::HTTP_OK);
+            return $json;
         }
         $user->setLastLogin(new \DateTime());
         $this->orm->flush($user);

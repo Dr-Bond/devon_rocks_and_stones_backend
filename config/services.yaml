@@ -4,6 +4,7 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    stone_directory: '%kernel.project_dir%/public/uploads/stone_directory'
 
 services:
     # default configuration for services in *this* file
@@ -49,5 +50,9 @@ services:
 
     App\CommandBus\Web\EmailCommandHandler:
         tags: ['messenger.message_handler']
+
+    App\Helper\FileUploader:
+        arguments:
+            $targetDirectory: '%stone_directory%'
 
 

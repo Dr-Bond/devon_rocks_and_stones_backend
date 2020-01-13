@@ -36,6 +36,7 @@ class LocationRepository extends ServiceEntityRepository
             ->join('l.stone','s')
             ->andWhere('s.status = :hidden')
             ->setParameter('hidden',Stone::STATUS_HIDDEN)
+            ->andWhere('l.foundOn is null')
             ->getQuery()
             ->getResult()
             ;

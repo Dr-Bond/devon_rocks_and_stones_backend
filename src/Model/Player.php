@@ -13,6 +13,18 @@ class Player
     private $county;
     private $postcode;
 
+    public function __construct($params)
+    {
+        $this->firstName = $params['firstName'];
+        $this->surname = $params['surname'];
+        $this->dateOfBirth = \DateTime::createFromFormat('d/m/Y',$params['dateOfBirth']);
+        $this->addressLineOne = $params['addressLineOne'];
+        $this->addressLineTwo = $params['addressLineTwo'];
+        $this->city = $params['city'];
+        $this->county = $params['county'];
+        $this->postcode = $params['postcode'];
+    }
+
     public function getFirstName(): ?string
     {
         return $this->firstName;

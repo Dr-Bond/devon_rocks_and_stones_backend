@@ -1,6 +1,7 @@
 app_api_user:
   path:     /user
   controller: App\Controller\Api\UserController::user
+  methods:  [GET]
 app_api_login:
   path:     /login
   controller: App\Controller\Api\UserController::login
@@ -9,7 +10,40 @@ app_api_register:
   path:     /register
   controller: App\Controller\Api\UserController::register
   methods:  [POST]
+app_api_posts:
+  path:     /post
+  controller: App\Controller\Api\UserController::posts
+  methods:  [GET]
+app_api_add_post:
+  path:     post/add
+  controller: App\Controller\Api\UserController::addPost
+  methods:  [POST]
+app_api_delete_post:
+  path:     post/delete/{id}
+  controller: App\Controller\Api\UserController::deletePost
+  methods:  [DELETE]
+app_api_stones:
+  path:     /stone
+  controller: App\Controller\Api\StoneController::index
+  methods:  [GET]
 app_api_stone_add:
-  path:     stone/add
+  path:     /stone/add
   controller: App\Controller\Api\StoneController::add
   methods:  [POST]
+app_api_delete_clue:
+  path:     /stone/clue/delete/{id}
+  controller: App\Controller\Api\StoneController::deleteClue
+  methods:  [DELETE]
+app_api_stone_found:
+  path:     /stone/{stone}/found/{location}
+  controller: App\Controller\Api\StoneController::found
+  methods:  [GET]
+app_api_stone_clues:
+  path:     /stone/{stone}/clues/{location}
+  controller: App\Controller\Api\StoneController::clues
+  methods:  [GET]
+app_api_stone_add_clues:
+    path:     /stone/{stone}/add-clue/{location}
+    controller: App\Controller\Api\StoneController::addClue
+    methods:  [POST]
+

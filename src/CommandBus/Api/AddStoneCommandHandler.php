@@ -2,7 +2,6 @@
 
 namespace App\CommandBus\Api;
 
-
 use App\Entity\Location;
 use App\Entity\Stone;
 use App\Helper\Orm;
@@ -24,7 +23,7 @@ class AddStoneCommandHandler
         $location = new Location(
             $command->getPlayer(),
             $stone,
-            $command->getArea()
+            $command->getLocation()
         );
         $orm->persist($location);
         $orm->flush();

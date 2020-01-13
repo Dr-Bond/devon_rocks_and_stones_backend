@@ -22,7 +22,7 @@ security:
             pattern: ^/api/register
             security: false
         api:
-            pattern: ^/api/|^/api/user
+            pattern: ^/api/|^/api/user|^/api/stone
             anonymous: ~
             stateless:  true
             json_login:
@@ -60,4 +60,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-          - { path: ^/api/user, roles: ROLE_USER}
+        - { path: ^/api/user, roles: ROLE_USER}
+        - { path: ^/api/posts, roles: ROLE_USER}
+        - { path: ^/api/add-post, roles: ROLE_USER}
+        - { path: ^/api/stone, roles: ROLE_USER}

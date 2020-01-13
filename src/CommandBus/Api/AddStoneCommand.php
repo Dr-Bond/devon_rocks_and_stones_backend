@@ -2,19 +2,17 @@
 
 namespace App\CommandBus\Api;
 
-
 use App\Entity\Player;
-use App\Model\Location;
 
 class AddStoneCommand
 {
     private $player;
-    private $area;
+    private $location;
 
-    public function __construct(Player $player, Location $location)
+    public function __construct(Player $player, $location)
     {
         $this->player = $player;
-        $this->area = $location->getArea();
+        $this->location = $location;
     }
 
     public function getPlayer(): Player
@@ -22,8 +20,8 @@ class AddStoneCommand
         return $this->player;
     }
 
-    public function getArea(): string
+    public function getLocation(): string
     {
-        return $this->area;
+        return $this->location;
     }
 }

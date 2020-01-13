@@ -7,6 +7,12 @@ class User
     private $email;
     private $password;
 
+    public function __construct($params)
+    {
+        $this->email = $params['email'];
+        $this->password = $params['password'];
+    }
+
     /**
      * @return mixed
      */

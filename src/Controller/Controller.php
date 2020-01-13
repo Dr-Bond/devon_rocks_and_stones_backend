@@ -12,6 +12,9 @@ use Symfony\Component\Validator\Validation;
 
 abstract class Controller extends AbstractController
 {
+    //const IMAGE_PATH = "http://devon-rocks-and-stones.192.168.1.14.xip.io:8888/uploads/stone_directory/";
+    const IMAGE_PATH = "http://devon-rocks-and-stones.192.168.43.3.xip.io:8888/uploads/stone_directory/";
+
     private $security;
     protected $urlGenerator;
     protected $orm;
