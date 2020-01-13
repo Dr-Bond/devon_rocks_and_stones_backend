@@ -38,6 +38,10 @@ app_api_stone_found:
   path:     /stone/{stone}/found/{location}
   controller: App\Controller\Api\StoneController::found
   methods:  [GET]
+app_api_stone_rehide:
+  path:     /stone/{stone}/rehide/{location}
+  controller: App\Controller\Api\StoneController::rehide
+  methods:  [POST]
 app_api_stone_clues:
   path:     /stone/{stone}/clues/{location}
   controller: App\Controller\Api\StoneController::clues

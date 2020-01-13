@@ -30,7 +30,8 @@ class StoneController extends Controller
                     'id' => $hiddenLocation->getStone()->getId(),
                     'status' => $hiddenLocation->getStone()->getStatus(),
                     'location' => $hiddenLocation->getId(),
-                    'area' => $hiddenLocation->getArea()
+                    'area' => $hiddenLocation->getArea(),
+                    'findable' => $hiddenLocation->getHiddenBy() !== $this->getPlayer() ? true : false
                 ];
             }
             $array['error'] = false;
@@ -114,5 +115,21 @@ class StoneController extends Controller
         };
 
         return new JsonResponse(['error' => true, 'message' => 'You do not have access!'], 401);
+    }
+
+
+    public function rehide(Stone $stone, Location $location, Request $request)
+    {
+        $area = $request->get('newLocation');
+        $stone->setStatus(Stone::STATUS_HIDDEN);
+        $location->setKept(false);
+        $location->setFoundOn(new \DateTime());
+        $location->setFoundBy($this->getPlayer());
+        $newLocation = new Location($this->getPlayer(),$stone,$area);
+        $newLocation->setPreviousLocation($location);
+        $this->orm->persist($newLocation);
+        $this->orm->flush();
+
+        return new JsonResponse(['message' => 'Stone rehidden!.'], 201);
     }
 }
