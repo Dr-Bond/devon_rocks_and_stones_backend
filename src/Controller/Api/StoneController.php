@@ -47,7 +47,7 @@ class StoneController extends Controller
         $location->setFoundBy($this->getPlayer());
         $this->orm->flush();
 
-        return new JsonResponse(['message' => 'Stone marked as found.'], 201);
+        return new JsonResponse([ 'error' => false, 'message' => 'Stone marked as found.'], 201);
     }
 
     public function add(Request $request, MessageBusInterface $bus)
@@ -103,7 +103,7 @@ class StoneController extends Controller
         $orm->persist($clue);
         $orm->flush();
 
-        return new JsonResponse(['message' => 'Clue added for stone '.$stone->getId().'!'], 201);
+        return new JsonResponse([ 'error' => false, 'message' => 'Clue added for stone '.$stone->getId().'!'], 201);
     }
 
     public function deleteClue(Clue $clue)
@@ -130,6 +130,6 @@ class StoneController extends Controller
         $this->orm->persist($newLocation);
         $this->orm->flush();
 
-        return new JsonResponse(['message' => 'Stone rehidden!.'], 201);
+        return new JsonResponse([ 'error' => false, 'message' => 'Stone rehidden!.'], 201);
     }
 }

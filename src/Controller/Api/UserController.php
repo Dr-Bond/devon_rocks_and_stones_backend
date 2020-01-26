@@ -54,7 +54,7 @@ class UserController extends Controller
     public function posts()
     {
         $array = [
-            'clues' => [],
+            'posts' => [],
             'error' => false
         ];
 

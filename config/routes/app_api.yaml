@@ -9,7 +9,7 @@ app_api_login:
 app_api_register:
   path:     /register
   controller: App\Controller\Api\UserController::register
-  methods:  [POST]
+  methods:  [PUT]
 app_api_posts:
   path:     /post
   controller: App\Controller\Api\UserController::posts
@@ -37,7 +37,7 @@ app_api_delete_clue:
 app_api_stone_found:
   path:     /stone/{stone}/found/{location}
   controller: App\Controller\Api\StoneController::found
-  methods:  [GET]
+  methods:  [POST]
 app_api_stone_rehide:
   path:     /stone/{stone}/rehide/{location}
   controller: App\Controller\Api\StoneController::rehide
